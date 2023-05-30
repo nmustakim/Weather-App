@@ -30,9 +30,10 @@ class _HomeState extends State<Home> {
                     child: SizedBox(
                       height: 45,
                       child: TextField(
+                        style: const TextStyle(color: Colors.white),
                         controller: _cityController,
                         decoration: InputDecoration(
-                          suffixIcon:         IconButton(
+                          suffixIcon: IconButton(
                               onPressed: () {
                                 Navigator.push(
                                   context,
@@ -43,15 +44,16 @@ class _HomeState extends State<Home> {
                               },
                               icon: const Icon(Icons.search,color: Colors.white,)),
                           focusColor: Colors.white,
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
+
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(22),
                             borderSide: const BorderSide(
                               color: Colors.white,
                               width: 3,
                             ),
                           ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(22),
                             borderSide:
                                 const BorderSide(color: Colors.white, width: 3),
                           ),
