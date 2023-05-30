@@ -4,8 +4,8 @@ import 'package:weather_forecast/remote_service/remote_service.dart';
 import '../models/current_weather.dart';
 
 class WeatherScreen extends StatefulWidget {
-  String? city;
-  WeatherScreen(this.city, {super.key});
+ final String city;
+  const WeatherScreen(this.city, {super.key});
 
   @override
   State<WeatherScreen> createState() => _WeatherScreenState();
@@ -17,7 +17,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
 
   Future <CurrentWeather> getCurrentWeather()async {
-    var response = await RemoteService().getWeather(widget.city!);
+    var response = await RemoteService().getWeather(widget.city);
 
     setState(() {
       _currentWeather = response;
@@ -34,103 +34,119 @@ _currentWeather = CurrentWeather();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(elevation: 0,),
       body:  SingleChildScrollView(
-        child: SafeArea(
-            child: Container(
-                height: 800,
-                padding: const EdgeInsets.fromLTRB(16, 16, 8, 16),
+        child: Container(
 
-                decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: [
-                          Colors.blue,
-                          Colors.white
 
-                        ]
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.blue,
+                      Colors.white
 
-                    )
-                ),
-                child: Column(
+                    ]
 
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 20,),
+                )
+            ),
+            child: Column(
 
-                FutureBuilder <CurrentWeather> (
-                        future: getCurrentWeather(),
-                        builder: (context, snapshot){
-                          if (snapshot.hasData && snapshot.data!.cod != null) {
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
 
-                            return Column(
-                              children:
-                              [
+            FutureBuilder <CurrentWeather> (
+                    future: getCurrentWeather(),
+                    builder: (context, snapshot){
+                      if (snapshot.hasData && _currentWeather.cod != null) {
 
+                        return Column(
+                          children:
+                          [
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(Icons.location_on,size: 35,),
+                                Text("${_currentWeather.name!}, ${_currentWeather.sys!.country!}",style: const TextStyle(fontSize: 35, color: Colors.white),),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                const SizedBox(height:20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+
+
+                                  children: [
+
+                                    Text("${_currentWeather.main!.temp!.toInt().toString()}°C",style: const TextStyle(fontSize: 100, color: Colors.white),),
+
+                                  ],
+                                ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Icon(Icons.location_on,size: 35,),
-                                    Text("${snapshot.data!.name!}, ${snapshot.data!.sys!.country!}",style: const TextStyle(fontSize: 35, color: Colors.white),),
+                                    Text("${_currentWeather.main!.tempMax!.toInt().toString()}°C",style: const TextStyle(fontSize: 25, color: Colors.white),),
+                                    const Icon(Icons.arrow_upward,size: 20,),
+                                    const SizedBox(width: 40,),
+                                    Text("${_currentWeather.main!.tempMin!.toInt().toString()}°C",style: const TextStyle(fontSize: 25, color: Colors.white),),const Icon(Icons.arrow_downward,size: 20,),
+
+
                                   ],
                                 ),
-                                Column(
+                                const SizedBox(height: 20,),
+                                Text("Feels like ${_currentWeather.main!.feelsLike!.toInt().toString()}°C",style: const TextStyle(fontSize: 20, color: Colors.white),)
+                               , Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    SizedBox(height:40),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-
-
-                                      children: [
-
-                                        Text("${snapshot.data!.main!.temp!.toInt().toString()}°C",style: const TextStyle(fontSize: 100, color: Colors.white),),
-
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text("${snapshot.data!.main!.tempMax!.toInt().toString()}°C",style: const TextStyle(fontSize: 25, color: Colors.white),),
-                                        const Icon(Icons.arrow_upward,size: 20,),
-                                        Text("    ${snapshot.data!.main!.tempMin!.toInt().toString()}°C",style: const TextStyle(fontSize: 25, color: Colors.white),),const Icon(Icons.arrow_downward,size: 20,),
-                                        const SizedBox(width: 40,),
-                                        Text("Feels like ${snapshot.data!.main!.feelsLike!.toInt().toString()}°C",style: const TextStyle(fontSize: 20, color: Colors.white),)
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Image.network( "https://openweathermap.org/img/wn/${snapshot.data!.weather!.first!.icon}.png",height: 100,),
-                                      ],
-                                    ),
-
-                                    Text(snapshot.data!.weather!.first!.main!,style: const TextStyle(fontSize: 40, color: Colors.white),),
-                                    Text("It's ${snapshot.data!.weather!.first!.description!} here",style: const TextStyle(fontSize: 20, color: Colors.white),),
-                                    const SizedBox(height: 20,),  const SizedBox(height: 50,),
-                                    Image.asset("assets/images/wind-icon.png",height: 50,width: 70,),
-                                    const SizedBox(height: 20,),
-                                    Text(" ${snapshot.data!.wind!.speed.toString()} m/s",style: const TextStyle(fontSize: 30,fontWeight: FontWeight.bold, color: Colors.white),),
-
+                                    Image.network( "https://openweathermap.org/img/wn/${_currentWeather.weather!.first!.icon}.png",height: 100,),
                                   ],
-                                )
+                                ),
+
+                                Text(_currentWeather.weather!.first!.main!,style: const TextStyle(fontSize: 40, color: Colors.white),),
+                                Text("It's ${_currentWeather.weather!.first!.description!} here",style: const TextStyle(fontSize: 20, color: Colors.black),),
+                                const SizedBox(height: 20,),
+                                Image.asset("assets/images/wind-icon.png",height: 50,width: 70,),
+                                const SizedBox(height: 20,),
+                                Text(" ${_currentWeather.wind!.speed.toString()} m/s",style: const TextStyle(fontSize: 30,fontWeight: FontWeight.bold, color: Colors.black),),
 
                               ],
-                            );
-                          }
-                          else if(snapshot.hasError){
-                            return Column(
-                              children: const [
-                                SizedBox(height:250,),
-                                Center(child: Text("No Data!\nSomething Wrong",textAlign: TextAlign.center ,style: TextStyle(fontSize: 20,color: Colors.red),)),Text("")
-                            ],);
-                          }
-                          return const Center(child: CircularProgressIndicator());
-                        }
-                    )
+                            )
+
+                          ],
+                        );
+                      }
+                      else if(snapshot.hasError){
+                        return Container(
+                          height: MediaQuery.of(context).size.height,
+                          width:MediaQuery.of(context).size.width ,
+
+                          decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomLeft,
+                                colors: [
+                                  Colors.blue,
+                                  Colors.white
+
+                                ]
 
 
+                        )
+                          ),
 
-                  ],
+                            child:const Center(child: Text("No Data!\nSomething Wrong",textAlign: TextAlign.center ,style: TextStyle(fontSize: 20,color: Colors.red),)),
+                        );
+                      }
+                      return const Center(child: CircularProgressIndicator());
+                    }
                 )
+
+
+
+              ],
             )
         ),
       ),

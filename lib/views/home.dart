@@ -33,23 +33,26 @@ class _HomeState extends State<Home> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: _cityController,
-                          decoration: InputDecoration(
-                            focusColor: Colors.white,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: const BorderSide(
-                                color: Colors.white,
-                                width: 3,
+                        child: SizedBox(
+                          height: 45,
+                          child: TextField(
+                            controller: _cityController,
+                            decoration: InputDecoration(
+                              focusColor: Colors.white,
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: const BorderSide(
+                                  color: Colors.white,
+                                  width: 3,
+                                ),
                               ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide:
+                                    const BorderSide(color: Colors.white, width: 3),
+                              ),
+                              hintText: 'Enter City',hintStyle: const TextStyle(color: Colors.white)
                             ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide:
-                                  const BorderSide(color: Colors.white, width: 3),
-                            ),
-                            hintText: 'Enter City',hintStyle: TextStyle(color: Colors.white)
                           ),
                         ),
                       ),
@@ -65,16 +68,16 @@ class _HomeState extends State<Home> {
                                           WeatherScreen(_cityController.text)),
                                 );
                               },
-                              icon: Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 16, 16, 0),
-                                child: const Icon(Icons.search),
+                              icon: const Padding(
+                                padding: EdgeInsets.fromLTRB(0, 16, 16, 0),
+                                child: Icon(Icons.search),
                               ))
                         ],
                       )
                     ],
                   ),
-                  Text("WeatherEasy",style: TextStyle(fontSize: 40,color: Colors.black),),
-                  Text("Knowing weather around you made easy"),
+                  const Text("WeatherEasy",style: TextStyle(fontSize: 40,color: Colors.black),),
+                  const Text("Knowing weather around you made easy"),
                   Expanded(child: Image.asset("assets/images/weather-forecast.png",))
 
                 ]),
