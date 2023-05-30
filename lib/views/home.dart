@@ -15,13 +15,15 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(elevation: 0,centerTitle:true,title:  const Text("WeatherEasy",style: TextStyle(fontSize: 32),),
+        ),
         body: SafeArea(
             child: Container(
-                height: 800,
-                padding: const EdgeInsets.fromLTRB(16, 16, 8, 16),
+
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: const BoxDecoration(
                     gradient: LinearGradient(
-                        begin: Alignment.topRight,
+                        begin: Alignment.topCenter,
                         end: Alignment.bottomLeft,
                         colors: [Colors.blue, Colors.white])),
                 child: Column(children: [
@@ -29,55 +31,41 @@ class _HomeState extends State<Home> {
                     height: 20,
                   ),
                   // Note: Same code is applied for the TextFormField as well
-                  Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          height: 45,
-                          child: TextField(
-                            controller: _cityController,
-                            decoration: InputDecoration(
-                              focusColor: Colors.white,
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: const BorderSide(
-                                  color: Colors.white,
-                                  width: 3,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide:
-                                    const BorderSide(color: Colors.white, width: 3),
-                              ),
-                              hintText: 'Enter City',hintStyle: const TextStyle(color: Colors.white)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      height: 45,
+                      child: TextField(
+                        controller: _cityController,
+                        decoration: InputDecoration(
+                          suffixIcon: InkWell(onTap: () {
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                        builder: (context) =>
+                        WeatherScreen(_cityController.text)),
+                        );
+                        },child: const Icon(Icons.search,color: Colors.white,)),
+                          focusColor: Colors.white,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: const BorderSide(
+                              color: Colors.white,
+                              width: 3,
                             ),
                           ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide:
+                                const BorderSide(color: Colors.white, width: 3),
+                          ),
+                          hintText: 'Enter City',hintStyle: const TextStyle(color: Colors.white)
                         ),
                       ),
-                      Row(
-                        children: [
-                          const Expanded(child: SizedBox()),
-                          IconButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          WeatherScreen(_cityController.text)),
-                                );
-                              },
-                              icon: const Padding(
-                                padding: EdgeInsets.fromLTRB(0, 16, 16, 0),
-                                child: Icon(Icons.search),
-                              ))
-                        ],
-                      )
-                    ],
+                    ),
                   ),
-                  const Text("WeatherEasy",style: TextStyle(fontSize: 40,color: Colors.black),),
-                  const Text("Knowing weather around you made easy"),
+
+
                   Expanded(child: Image.asset("assets/images/weather-forecast.png",))
 
                 ]),
