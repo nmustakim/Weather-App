@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_forecast/remote_service/remote_service.dart';
+import 'package:weather_forecast/views/widgets/reusable_container.dart';
 
 import '../models/current_weather.dart';
 
@@ -36,21 +37,7 @@ _currentWeather = CurrentWeather();
     return Scaffold(
       appBar: AppBar(elevation: 0,),
       body:  SingleChildScrollView(
-        child: Container(
-
-
-            decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.blue,
-                      Colors.white
-
-                    ]
-
-                )
-            ),
+        child: ReusableContainer(
             child: Column(
 
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -118,29 +105,14 @@ _currentWeather = CurrentWeather();
                           ],
                         );
                       }
-                      else if(snapshot.hasError){
-                        return Container(
-                          height: MediaQuery.of(context).size.height,
-                          width:MediaQuery.of(context).size.width ,
-
-                          decoration: const BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomLeft,
-                                colors: [
-                                  Colors.blue,
-                                  Colors.white
-
-                                ]
-
-
-                        )
-                          ),
-
-                            child:const Center(child: Text("No Data!\nSomething Wrong",textAlign: TextAlign.center ,style: TextStyle(fontSize: 20,color: Colors.red),)),
+                      else if(snapshot.hasError) {
+                        return const ReusableContainer(child: Center(child: Text(
+                          "No Data!\nSomething Wrong", textAlign: TextAlign
+                            .center, style: TextStyle(
+                            fontSize: 20, color: Colors.red),)),
                         );
                       }
-                      return const Center(child: CircularProgressIndicator());
+                      return  const ReusableContainer(child: Center(child: CircularProgressIndicator()));
                     }
                 )
 
